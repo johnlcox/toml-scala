@@ -7,6 +7,6 @@ lazy val commonSettings = Seq(
 lazy val root = (project in file("."))
     .settings(commonSettings: _*)
     .settings(
-      name := "toml-scala"
+      name := "toml-scala",
+      libraryDependencies += "joda-time" % "joda-time" % "2.7"
     )
-    
