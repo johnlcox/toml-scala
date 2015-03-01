@@ -27,5 +27,25 @@ class TomlTest extends FunSpec with ShouldMatchers {
 
       System.out.println(table)
     }
+
+    it("should work with sub-tables") {
+      val table = TomlParser.parse("number = 23\nstring = \"My String\"\n[MyTable]\nnumber = 42")
+
+      System.out.println(table)
+    }
+
+    it("should work with a second sub-table") {
+      val table = TomlParser.parse(
+        "number = 23\nstring = \"My String\"\n[MyTable]\nnumber = 42\n[MyOtherTable]\nstring = \"My Other String\"")
+
+      System.out.println(table.children)
+    }
+
+    it("should work with a embedded sub-tables") {
+      val table = TomlParser.parse(
+        "number = 23\nstring = \"My String\"\n[MyTable]\nnumber = 42\n[MyOtherTable]\nstring = \"My Other String\"\n[MyTable.Embedded]\nembeddedString = \"Hello\"")
+
+      System.out.println(table)
+    }
   }
 }
