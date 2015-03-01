@@ -16,8 +16,8 @@ package object toml {
   val TInteger = TomlAst.TInteger
   type TBoolean = TomlAst.TBoolean
   val TBoolean = TomlAst.TBoolean
-  type TObject = TomlAst.TObject
-  val TObject = TomlAst.TObject
+  type TTable = TomlAst.TTable
+  val TTable = TomlAst.TTable
   type TArray = TomlAst.TArray
   val TArray = TomlAst.TArray
   type TField = TomlAst.TField
