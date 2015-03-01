@@ -1,4 +1,4 @@
-import com.leacox.toml.TomlAst.TTable
+import com.leacox.toml.TomlAst.{TInteger, TTable}
 import com.leacox.toml.TomlParser
 
 import org.scalatest.{FunSpec, ShouldMatchers}
@@ -19,14 +19,13 @@ class TomlTest extends FunSpec with ShouldMatchers {
     it("should parse this one?") {
       val table = TomlParser.parse("key = 23").asInstanceOf[TTable]
 
-      table.get("key") should be(Some(23))
+      table.get("key") should be(Some(TInteger(23)))
     }
 
-    it("should match x :: nil") {
-      List(1) match {
-        case x :: xs => System.out.println("Yes!")
-        case x :: Nil => System.out.println("no :(")
-      }
+    it("should do a whole table") {
+      val table = TomlParser.parse("number = 23\nstring = \"My String\"").asInstanceOf[TTable]
+
+      System.out.println(table)
     }
   }
 }

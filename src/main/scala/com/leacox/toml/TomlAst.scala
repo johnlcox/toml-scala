@@ -13,7 +13,7 @@ object TomlAst {
     def values: Values
 
     def children: List[TValue] = this match {
-      case TTable(value) => value map (_._2)
+      case TTable(value) => value.values.view.toList
       case TArray(value) => value
       case _ => Nil
     }
@@ -73,15 +73,17 @@ object TomlAst {
   case class TTable(map: Map[String, TValue]) extends TValue {
     type Values = Map[String, TValue]
     def values = map
+
+    def get(key: String) = map.get(key)
   }
 
   //  case object TTable {
   //    def apply(fs: TField*): TTable = TTable(fs.toList)
   //  }
 
-  case object TTable {
-    def apply(fs: TField*): TTable = TTable(fs.toMap)
-  }
+  //  case object TTable {
+  //    def apply(fs: TField*): TTable = TTable(fs.toMap)
+  //  }
 
   case class TArray(arr: List[TValue]) extends TValue {
     type Values = List[Any]
