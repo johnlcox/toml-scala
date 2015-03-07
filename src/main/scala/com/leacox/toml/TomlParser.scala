@@ -42,8 +42,12 @@ trait TomlParser extends JavaTokenParsers {
   // Primities
   private val string = stringLiteral ^^ { x => TString(x) }
   // Literal strings?
-  private val integer = """-?\+?(\d+(\d*_\d*)*\d+|\d+)""".r ^^ { x => TInteger(x.toLong) }
-  private val float = Nil
+  // TODO Why is '$' required here vs added to the primitive definition as '<~ "$".r'?
+  private val integer = """-?\+?(\d+(\d*_\d*)*\d+|\d+)[^\.]$""".r ^^
+      { x => println(s"val is: |$x|"); TInteger(x.toLong) }
+  private val float =
+    """-?\+?((\d+(\d*_\d*)*\d+|\d+)(\.(\d+(\d*_\d*)*\d+|\d+))?(([eE]-?\+?(\d+(\d*_\d*)*\d+|\d+))?))"""
+        .r ^^ { x => TDouble(x.toDouble) }
   private val boolean = Nil
   private val datetime = Nil
 
@@ -61,7 +65,8 @@ trait TomlParser extends JavaTokenParsers {
   private def openMultilineArray = Nil
   private def closeMultilineArray = Nil
 
-  private def assignment: Parser[Assignment] = (keyPart <~ "=") ~ (string | integer) ^^
+  private def primitive = string | integer | float
+  private def assignment: Parser[Assignment] = (keyPart <~ "=") ~ primitive ^^
       { case key ~ value => Assignment(key, value) }
   private def statement = tableOpen | assignment
 }

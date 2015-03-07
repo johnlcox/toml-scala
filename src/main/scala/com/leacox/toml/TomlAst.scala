@@ -74,7 +74,7 @@ object TomlAst {
     type Values = Map[String, TValue]
     def values = map
 
-    def get(key: String) = map.get(key)
+    def get(key: String) = map(key)
   }
 
   //  case object TTable {
